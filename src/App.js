@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { nanoid } from 'nanoid';
 import NotesList from './components/NotesList';
 import Search from './components/Search';
 import Header from './components/Header';
 
 const App = () => {
 
-  const NOTES_API_URL = 'https://643efbc0b9e6d064beec702e.mockapi.io/nots'
+  const NOTES_API_URL = 'https://643efbc0b9e6d064beec702e.mockapi.io/notes'
 
   const [notes, setNotes] = useState([
   {
-    
     id: '',
     text: '',
     date: '',
-    
   },
 ]);
+
+//state for newNote
+const [newNote, setNewNote] = useState ({
+  id:'',
+  text: '',
+  date: ''
+});
+
+//state for updating a note
+const [updateNote, setUpdateNote] = useState ({
+  id: '',
+  text: '',
+  date: ''
+});
 
 //state to hold text area values 
 const [searchText, setSearchText] = useState('');
@@ -24,44 +35,55 @@ const [searchText, setSearchText] = useState('');
 //state to hold dark mode value
 const [darkMode, setDarkMode] = useState(false);
 
-//get item from local storage **replace with API
-useEffect(() => {
-  const savedNotes = JSON.parse(
-    localStorage.getItem('react-notes-app-data')
-  );
+  useEffect(() => {
+    fetch(NOTES_API_URL)
+    .then((data) => data.json())
+    .then((data) => setNotes(data))
+  }, [])
 
-  if (savedNotes) {
-    setNotes(savedNotes);
+  //get notes from api
+  const getNotes = () => {
+    console.log(`doing getNotes function`)
+
+    fetch(NOTES_API_URL)
+    .then((data) => data.json())
+    .then((data) => setNotes(data))
   }
-}, []);
 
-//set item to local storage **Replace with API
-useEffect(() => {
-  localStorage.setItem(
-    'react-notes-app-data',
-    JSON.stringify(notes)
-  );
-}, [notes]);
+  //post notes to api
+  const postNotes = (e) => {
+    e.preventDefault()
+    console.log('doing postNotes...')  
 
-//function to update note state with new note
-const addNote = (text) => {
-  const date = new Date();
-  const newNote = {
-    id: id,
-    text: text,
-    date: date.toLocaleDateString()
+    fetch(NOTES_API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newNote),
+    }).then(() => getNotes())
   }
-  const newNotes = [...notes, newNote];
-  setNotes(newNotes);
-};
 
-//function to update note state by removing a note
-const deleteNote = (id) => {
-  const newNotes = notes.filter((note) => note.id !== id)
-  setNotes(newNotes);
-};
+  //delete note from API
+  const deleteNotes = (id) => {
+    console.log(id)
+    console.log('Deleting Notes...')
 
-//function to edit note and update state 
+    fetch(`${NOTES_API_URL}/${id}`, {
+      method: 'DELETE',
+    }).then(() => getNotes())
+  }
+
+  //update notes on API
+  const updateNotes = (note) => {
+    console.log('Updating Notes name...')
+    let updatedNotes = note
+      updatedNotes.text = updatedNotes
+      console.log(updateNotes)
+    fetch(`${NOTES_API_URL}/${note.id}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(updateNotes)
+    }).then(() => getNotes())
+  }
 
   return (
     <div className={`${darkMode && 'dark-mode'}`}>
@@ -70,20 +92,21 @@ const deleteNote = (id) => {
           handleToggleDarkMode={setDarkMode}
         />
         <Search
-          handleSearchNote={setSearchText}
+          handleSearchNote= {(value) => {
+            setSearchText(value.toLowerCase());
+          }}
         />
         <NotesList 
           notes={notes.filter((note) => 
             note.text.toLowerCase().includes(searchText)
           )}
-          handleAddNote={addNote}
-          handleDeleteNote={deleteNote}
+          handleAddNote={postNotes}
+          handleDeleteNote={deleteNotes}
         />
       </div>
     </div>
    
   );
-  
   
 };
 
