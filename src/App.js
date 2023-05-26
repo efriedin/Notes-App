@@ -5,34 +5,26 @@ import Search from './components/Search';
 import Header from './components/Header';
 
 const App = () => {
+
+  const NOTES_API_URL = 'https://643efbc0b9e6d064beec702e.mockapi.io/nots'
+
   const [notes, setNotes] = useState([
   {
     
-    id: nanoid(),
-    text: "this is my first note",
-    date: "05/24/2023",
+    id: '',
+    text: '',
+    date: '',
     
   },
-  {
-    
-    id: nanoid(),
-    text: "this is my second note",
-    date: "05/24/2023",
-    
-  },
-  {
-    
-    id: nanoid(),
-    text: "this is my third note",
-    date: "05/24/2023",
-    
-  }
 ]);
 
+//state to hold text area values 
 const [searchText, setSearchText] = useState('');
 
+//state to hold dark mode value
 const [darkMode, setDarkMode] = useState(false);
 
+//get item from local storage **replace with API
 useEffect(() => {
   const savedNotes = JSON.parse(
     localStorage.getItem('react-notes-app-data')
@@ -43,6 +35,7 @@ useEffect(() => {
   }
 }, []);
 
+//set item to local storage **Replace with API
 useEffect(() => {
   localStorage.setItem(
     'react-notes-app-data',
@@ -50,10 +43,11 @@ useEffect(() => {
   );
 }, [notes]);
 
+//function to update note state with new note
 const addNote = (text) => {
   const date = new Date();
   const newNote = {
-    id: nanoid(),
+    id: id,
     text: text,
     date: date.toLocaleDateString()
   }
@@ -61,11 +55,13 @@ const addNote = (text) => {
   setNotes(newNotes);
 };
 
-
+//function to update note state by removing a note
 const deleteNote = (id) => {
   const newNotes = notes.filter((note) => note.id !== id)
   setNotes(newNotes);
 };
+
+//function to edit note and update state 
 
   return (
     <div className={`${darkMode && 'dark-mode'}`}>
@@ -87,6 +83,8 @@ const deleteNote = (id) => {
     </div>
    
   );
+  
+  
 };
 
 export default App
