@@ -104,18 +104,18 @@ const postNotes = async (text) => {
   };
 
   return (
-    <div className={`${darkMode && 'dark-mode'}`}>
-      <div className='container'>
-        <Header handleToggleDarkMode={setDarkMode} />
+    <div className={`${darkMode && 'dark-mode'}`}> {/* Apply the 'dark-mode' class based on the value of dark mode state*/}
+      <div className='container'> {/* Container for the entire app */}
+        <Header handleToggleDarkMode={setDarkMode} /> {/* Render the Header component and pass the handleToggleDarkMode function */}
         <Search
-          handleSearchNote={(value) => {
-            setSearchText(value.toLowerCase());
+          handleSearchNote={(value) => { /* Render the Search component and pass the handleSearchNote function */
+            setSearchText(value.toLowerCase()); /* Update the searchText state with the lowercase value of the search input */
           }}
         />
         <NotesList
-          notes={notes.filter((note) => note.text.toLowerCase().includes(searchText))}
-          handleAddNote={postNotes}
-          handleDeleteNote={deleteNotes}
+          notes={notes.filter((note) => note.text.toLowerCase().includes(searchText))} /* Filter the notes based on the searchText */
+          handleAddNote={postNotes} /* Pass the PostNotes function to handle adding a new note */
+          handleDeleteNote={deleteNotes} /* Pass the deleteNotes function to handle deleting a note */
         />
       </div>
     </div>
