@@ -14,13 +14,6 @@ const App = () => {
     },
   ]);
 
-  // State for newNote
-  const [newNote, setNewNote] = useState({
-    id: '',
-    text: '',
-    date: '',
-  });
-
   // State for noteText and setNoteText
   const [noteText, setNoteText] = useState('');
 
@@ -53,14 +46,15 @@ const App = () => {
   };
 
   // Post notes to API
-const postNotes = async () => {
+const postNotes = async (text) => {
   console.log('doing postNotes...');
 
   try {
+    const currentDate = new Date(); //get the current date
     const noteToPost = {
       id: '',
-      text: newNote.text,
-      date: '',
+      text: text,
+      date: currentDate.toISOString(), //conver the date to ISO string format
     };
 
     await fetch(NOTES_API_URL, {
@@ -69,11 +63,6 @@ const postNotes = async () => {
       body: JSON.stringify(noteToPost),
     });
     getNotes();
-    setNewNote({
-      id: '',
-      text: '',
-      date: '',
-    });
   } catch (error) {
     console.error('Error posting note:', error);
   }
@@ -86,19 +75,8 @@ const postNotes = async () => {
       text: text,
       date: '',
     };
-    // Rest of your postNotes logic
   };
-
-  const handleAddNote = (text) => {
-    console.log('doing handleAddNote...');
-    const newNote = {
-      id: '',
-      text: text,
-      date: '',
-    };
-    postNotes(newNote); // Pass the newNote object to postNotes
-  };
-  
+   
 
   // Delete note from API
   const deleteNotes = (id) => {
