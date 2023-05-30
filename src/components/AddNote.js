@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MdEditNote } from "react-icons/md";
 
 const AddNote = ({ handleAddNote }) => {
   const [noteText, setNoteText] = useState(""); //State for the note text
@@ -20,6 +21,7 @@ const AddNote = ({ handleAddNote }) => {
     }
   };
 
+
   return (
     <div className="note new">
       <textarea
@@ -35,6 +37,7 @@ const AddNote = ({ handleAddNote }) => {
         <button className="save" onClick={handleSaveClick}>
           Save
         </button>
+        
       </div>
     </div>
   );

@@ -89,6 +89,15 @@ textarea:focus {
   background-color: #67d7cc;
 }
 
+.edit-icon {
+  padding-left: 130px;
+}
+
+.edit-icon:hover {
+  opacity: 0.6;
+}
+
+
 .search {
   display: flex;
   align-items: center;

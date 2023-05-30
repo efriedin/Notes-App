@@ -129,6 +129,9 @@ const App = () => {
           handleDeleteNote={
             deleteNotes
           } /* Pass the deleteNotes function to handle deleting a note */
+          handleUpdateNote={
+            updateNotes
+          }
         />
       </div>
     </div>
