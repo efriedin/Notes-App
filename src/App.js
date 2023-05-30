@@ -111,7 +111,6 @@ const postNotes = async (text) => {
           }}
         />
         <NotesList
-          handlePostNote={handlePostNote}
           notes={notes.filter((note) => note.text.toLowerCase().includes(searchText))}
           handleAddNote={postNotes}
           handleDeleteNote={deleteNotes}
