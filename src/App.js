@@ -31,12 +31,13 @@ const App = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
+    //Fetch notes from the API on initial load
     fetch(NOTES_API_URL)
       .then((data) => data.json())
       .then((data) => setNotes(data));
   }, []);
 
-  // Get notes from API
+  // Function to fetch notes from API
   const getNotes = () => {
     console.log(`doing getNotes function`);
 
@@ -45,7 +46,7 @@ const App = () => {
       .then((data) => setNotes(data));
   };
 
-  // Post notes to API
+  // Function to post a new note to the API
 const postNotes = async (text) => {
   console.log('doing postNotes...');
 
@@ -62,12 +63,13 @@ const postNotes = async (text) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(noteToPost),
     });
-    getNotes();
+    getNotes(); //Fetch the updated notes from the API
   } catch (error) {
     console.error('Error posting note:', error);
   }
 };
 
+  //Function to handle post note (not used in the current code)
   const handlePostNote = (text) => {
     console.log('doing postNotes...');
     const newNote = {
@@ -78,17 +80,17 @@ const postNotes = async (text) => {
   };
    
 
-  // Delete note from API
+  //Function to delete a note from the API 
   const deleteNotes = (id) => {
     console.log(id);
     console.log('Deleting Notes...');
 
     fetch(`${NOTES_API_URL}/${id}`, {
       method: 'DELETE',
-    }).then(() => getNotes());
+    }).then(() => getNotes()); //Fetch the updated notes from the API
   };
 
-  // Update notes on API
+  // Function to update a note on the API (note implemented in the current code)
   const updateNotes = (note) => {
     console.log('Updating Notes name...');
     let updatedNotes = note;
@@ -98,7 +100,7 @@ const postNotes = async (text) => {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updateNotes),
-    }).then(() => getNotes());
+    }).then(() => getNotes()); //Fetch the updated notes from the API
   };
 
   return (
