@@ -3,7 +3,9 @@ import React from "react";
 const Header = ({ handleToggleDarkMode }) => {
     return (
         <div className="header">
-            <h1>Notes</h1>
+            {/* Heading for the app */}
+            <h1>Notes</h1> 
+            {/* Button for toggling dark mode */}
             <button 
                 onClick= {() => 
                     handleToggleDarkMode(

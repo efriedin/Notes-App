@@ -8,6 +8,7 @@ const Search = ({ handleSearchNote }) => {
                 className="search-icon" 
                 size='1.3em' 
             />
+            {/* Input field for searching notes */}
             <input 
                 onChange={(event) => 
                     handleSearchNote(event.target.value)
