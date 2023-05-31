@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import NotesList from "./components/NotesList";
 import Search from "./components/Search";
 import Header from "./components/Header";
+import NavBar from "./components/NavBar.js/Index";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App = () => {
   const NOTES_API_URL = "https://643efbc0b9e6d064beec702e.mockapi.io/notes";

@@ -123,3 +123,9 @@ textarea:focus {
 .search input:focus {
   outline: none;
 }
+
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -4,7 +4,7 @@ const Header = ({ handleToggleDarkMode }) => {
   return (
     <div className="header">
       {/* Heading for the app */}
-      <h1>Notes</h1>
+      <h2>Notes</h2>
       {/* Button for toggling dark mode */}
       <button
         onClick={() =>
