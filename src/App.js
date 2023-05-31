@@ -6,58 +6,32 @@ import Header from "./components/Header";
 const App = () => {
   const NOTES_API_URL = "https://643efbc0b9e6d064beec702e.mockapi.io/notes";
 
-  const [notes, setNotes] = useState([
-    {
-      id: "",
-      text: "",
-      date: "",
-    },
-  ]);
-
-  //State for noteText and setNoteText
-  const [noteText, setNoteText] = useState('');
-
-  // State for updating a note
-  const [updateNote, setUpdateNote] = useState({
-    id: "",
-    text: "",
-    date: "",
-  });
-
-  // State to hold text area values
-  const [searchText, setSearchText] = useState("");
-
-  // State to hold dark mode value
-  const [darkMode, setDarkMode] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [searchText, setSearchText] = useState(""); // State to hold text area values
+  const [darkMode, setDarkMode] = useState(false);  // State to hold dark mode value
 
   useEffect(() => {
-    //Fetch notes from the API on initial load
-    fetch(NOTES_API_URL)
-      .then((data) => data.json())
-      .then((data) => setNotes(data));
+    getNotes();
   }, []);
 
   // Function to fetch notes from API
   const getNotes = () => {
-    console.log(`doing getNotes function`);
-
     fetch(NOTES_API_URL)
-      .then((data) => data.json())
-      .then((data) => setNotes(data));
+      .then((response) => response.json())
+      .then((data) => setNotes(data))
+      .catch((error) => {
+        console.log("Error fetching notes:", error);
+      });
   };
 
   // Function to post a new note to the API
   const postNotes = async (text) => {
-    console.log("doing postNotes...");
-
     try {
       const currentDate = new Date(); //get the current date
       const noteToPost = {
-        id: "",
         text: text,
         date: currentDate.toISOString(), //conver the date to ISO string format
       };
-
       await fetch(NOTES_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,24 +43,15 @@ const App = () => {
     }
   };
 
-  //Function to handle post note (not used in the current code)
-  const handlePostNote = (text) => {
-    console.log("doing postNotes...");
-    const newNote = {
-      id: "",
-      text: text,
-      date: "",
-    };
-  };
-
   //Function to delete a note from the API
   const deleteNotes = (id) => {
-    console.log(id);
-    console.log("Deleting Notes...");
-
     fetch(`${NOTES_API_URL}/${id}`, {
       method: "DELETE",
-    }).then(() => getNotes()); //Fetch the updated notes from the API
+    })
+      .then(() => getNotes()) //Fetch the updated notes from the API
+      .catch((error) => {
+        console.error("Error deleting note:", error);
+      });
   };
 
   // Function to update a note on the API (note implemented in the current code)
@@ -98,13 +63,9 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((updatedNoteData) => {
-        // Find the index of the updated note in the notes array
-        const noteIndex = notes.findIndex((note) => note.id === updatedNoteData)
-        
-        // Update the notes state by creating a new array with the updated note
-        const updatedNotes = [...notes];
-        updatedNotes[noteIndex] = updatedNoteData;
-
+        const updatedNotes = notes.map((note) => 
+          note.id === updatedNoteData.id ? updatedNoteData : note
+        );
         setNotes(updatedNotes);
       })
       .catch((error) => {
@@ -132,7 +93,7 @@ const App = () => {
         />
         <NotesList
           notes={notes.filter((note) =>
-            note.text.toLowerCase().includes(searchText)
+            note.text.toLowerCase().includes(searchText.toLowerCase())
           )} /* Filter the notes based on the searchText */
           handleAddNote={
             postNotes

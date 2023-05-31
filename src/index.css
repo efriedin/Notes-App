@@ -52,19 +52,26 @@ textarea {
 
 }
 
-.save {
+.save,
+.update-note {
   background-color: #e1e1e1;
   border: none;
   border-radius: 15px;
   padding: 5px 10px 5px 10px;
 }
 
-.save:hover {
+.save:hover,
+.update-note:hover {
   background-color: #ededed;
 }
 
 textarea:focus {
   outline: none;
+}
+
+.edit-text-area {
+  outline: none;
+  background-color: #f3f68a;
 }
 
 .note {

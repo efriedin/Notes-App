@@ -2,74 +2,58 @@ import { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { MdEditNote } from "react-icons/md";
 
-const Note = ({ id, text, date, handleDeleteNote, handleUpdateNote }) => {
+const Note = ({ note, handleDeleteNote, handleUpdateNote }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedText, setUpdatedText] = useState(text);
-  const [tempText, setTempText] = useState(text);
+  const [tempText, setTempText] = useState(note.text);
 
   const handleInputChange = (event) => {
     setTempText(event.target.value);
   };
 
   const handleSaveNote = () => {
-    if(tempText.text() !== "") {
+    console.log(tempText);
+    if(tempText !== "") {
       handleUpdateNote({
-        id,
-        text:tempText,
-        date,
+        ...note,
+        text: tempText,
       });
       setIsEditing(false);
     }
-  };
-
-  const editNote = () => {
-    handleUpdateNote({
-      id,
-      text: updatedText,
-      date,
-    });
   };
 
   const handleNoteClick = () => {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
-    if (tempText.trim() !== "") {
-      handleSaveNote({
-        id,
-        text: tempText,
-        date,
-      });
-      setIsEditing(false);
-    }
-  };
-
   useEffect(() => {
-    setTempText(text)
-  }, [text]);
+    setTempText(note.text);
+  }, [note.text]);
+
 
   return (
     <div className="note">
       {isEditing ? (
         <>
-          <input
+          <textarea
+            rows="8"
+            cols="10"
             type="text"
             value={tempText}
             onChange={handleInputChange}
-          />
-          <button onClick={handleSaveClick}>Update Note</button>
+            className="edit-text-area"
+          ></textarea>
+          <button onClick={handleSaveNote} className="update-note">Update Note</button>
         </>
       ) : (
-        <span onClick={handleNoteClick}>{text}</span>
+        <span onClick={handleNoteClick}>{note.text}</span>
       )}
       <div className="note-footer">
         {/* Display the note date*/}
-        <small>{date}</small>
+        <small>{note.date}</small>
         <MdEditNote onClick={handleNoteClick} className="edit-icon" />
         {/* Delete icon for deleting the note*/}
         <MdDeleteForever
-          onClick={() => handleDeleteNote(id)}
+          onClick={() => handleDeleteNote(note.id)}
           className="delete-icon"
           size="1.3em"
         />{" "}

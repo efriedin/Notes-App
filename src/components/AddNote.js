@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MdEditNote } from "react-icons/md";
+
 
 const AddNote = ({ handleAddNote }) => {
   const [noteText, setNoteText] = useState(""); //State for the note text
