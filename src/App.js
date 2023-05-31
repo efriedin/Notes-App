@@ -14,8 +14,8 @@ const App = () => {
     },
   ]);
 
-  // // State for noteText and setNoteText
-  // const [noteText, setNoteText] = useState('');
+  //State for noteText and setNoteText
+  const [noteText, setNoteText] = useState('');
 
   // State for updating a note
   const [updateNote, setUpdateNote] = useState({
@@ -97,10 +97,15 @@ const App = () => {
       body: JSON.stringify(updatedNote),
     })
       .then((response) => response.json())
-      .then((data) => {
-        // Handle the updated note data as needed
-        console.log('Note updated:', data);
-        // Perform any additional actions after note update
+      .then((updatedNoteData) => {
+        // Find the index of the updated note in the notes array
+        const noteIndex = notes.findIndex((note) => note.id === updatedNoteData)
+        
+        // Update the notes state by creating a new array with the updated note
+        const updatedNotes = [...notes];
+        updatedNotes[noteIndex] = updatedNoteData;
+
+        setNotes(updatedNotes);
       })
       .catch((error) => {
         console.error('Error updating note:', error);
@@ -145,15 +150,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-// console.log("Updating Notes name...");
-//     let updatedNotes = note;
-//     updatedNotes.text = updatedNotes;
-//     console.log(updateNotes);
-//     fetch(`${NOTES_API_URL}/${note.id}`, {
-//       method: "PUT",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(updateNotes),
-//     }).then(() => getNotes()); //Fetch the updated notes from the API
