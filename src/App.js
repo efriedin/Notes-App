@@ -90,16 +90,22 @@ const App = () => {
   };
 
   // Function to update a note on the API (note implemented in the current code)
-  const updateNotes = (note) => {
-    console.log("Updating Notes name...");
-    let updatedNotes = note;
-    updatedNotes.text = updatedNotes;
-    console.log(updateNotes);
-    fetch(`${NOTES_API_URL}/${note.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updateNotes),
-    }).then(() => getNotes()); //Fetch the updated notes from the API
+  const updateNotes = (updatedNote) => {
+    fetch(`${NOTES_API_URL}/${updatedNote.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedNote),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the updated note data as needed
+        console.log('Note updated:', data);
+        // Perform any additional actions after note update
+      })
+      .catch((error) => {
+        console.error('Error updating note:', error);
+        // Handle error scenario
+      });
   };
 
   return (
@@ -139,3 +145,15 @@ const App = () => {
 };
 
 export default App;
+
+
+
+// console.log("Updating Notes name...");
+//     let updatedNotes = note;
+//     updatedNotes.text = updatedNotes;
+//     console.log(updateNotes);
+//     fetch(`${NOTES_API_URL}/${note.id}`, {
+//       method: "PUT",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(updateNotes),
+//     }).then(() => getNotes()); //Fetch the updated notes from the API

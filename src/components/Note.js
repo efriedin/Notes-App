@@ -3,14 +3,24 @@ import { MdEditNote } from "react-icons/md";
 
 const Note = ({ id, text, date, handleDeleteNote, handleUpdateNote }) => {
 
+
+  const handleInputChange = (event) => {
+    setUpdatedText(event.target.value);
+  };
+  
   const editNote = () => {
-    console.log("update meee...")
-  }
+    handleUpdateNote({
+      id,
+      text: updatedText,
+      date,
+    });
+
+  };
 
   return (
     <div className="note">
       {/* Display the note text */}
-      <span>{text}</span>
+      <input type="text" value={updatedText} onChange={handleInputChange} />
       <div className="note-footer">
         {/* Display the note date*/}
         <small>{date}</small>
