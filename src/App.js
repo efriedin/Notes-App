@@ -3,6 +3,8 @@ import NotesList from "./components/NotesList";
 import Search from "./components/Search";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar/Navbar";
+import { Calendar } from "./components/Calendar/Calendar";
+
 
 const App = () => {
   const NOTES_API_URL = "https://643efbc0b9e6d064beec702e.mockapi.io/notes";
@@ -108,6 +110,7 @@ const App = () => {
           }
         />
       </div>
+      <Calendar />
     </div>
   );
 };
