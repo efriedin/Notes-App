@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import NotesList from "./components/NotesList";
 import Search from "./components/Search";
 import Header from "./components/Header";
-import NavBar from "./components/NavBar.js/Index";
-import { BrowserRouter as Router } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
 
 const App = () => {
   const NOTES_API_URL = "https://643efbc0b9e6d064beec702e.mockapi.io/notes";
@@ -82,6 +81,7 @@ const App = () => {
       {/* Apply the 'dark-mode' class based on the value of dark mode state*/}
       <div className="container">
         {" "}
+        <Navbar />
         {/* Container for the entire app */}
         <Header handleToggleDarkMode={setDarkMode} />{" "}
         {/* Render the Header component and pass the handleToggleDarkMode function */}
