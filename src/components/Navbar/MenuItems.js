@@ -6,7 +6,7 @@ export const MenuItems = [
     },
     {
         title: 'Calendar',
-        url: 'C:\Users\erinf\Documents\Bootcamp\Notes App\notes-app\src\components\Calendar\Calendar.js',
+        url: '#',
         cName: 'nav-links'
     },
     {
