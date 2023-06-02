@@ -5,6 +5,8 @@ import Search from "./components/Search";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar/Navbar";
 import { Calendar } from "./components/Calendar/Calendar";
+import ToDoList from "./components/ToDo/ToDoList";
+
 
 const App = () => {
   const NOTES_API_URL = "https://643efbc0b9e6d064beec702e.mockapi.io/notes";
@@ -96,6 +98,7 @@ const App = () => {
               />
             </div>} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/todo" element={<ToDoList />} />
           </Routes>
         </div>
       </div>
