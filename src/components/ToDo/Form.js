@@ -28,8 +28,8 @@ const Form = ({ inputText, setInputText, todos, setTodos, submitTodoHandler, set
         <div className='select'>
             <select onChange={statusHandler} name='todos' className='filter-todo'>
                 <option value="all">All</option>
-                <option value="Completed">Completed</option>
-                <option value="Incomplete">Incomplete</option>
+                <option value="completed">Completed</option>
+                <option value="incomplete">Incomplete</option>
             </select>
         </div>
     </form>
