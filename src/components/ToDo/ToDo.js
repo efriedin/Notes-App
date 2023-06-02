@@ -1,31 +1,22 @@
-import React from 'react'
-import { MdCheck, MdDelete } from 'react-icons/md'
+import React from 'react';
+import { MdCheck, MdDelete } from 'react-icons/md';
 
-const ToDo = ( { text, todo, todos, setTodos }) => {
+const ToDo = ({ text, todo, deleteTodo, completeTodo }) => {
+  const deleteHandler = () => {
+    deleteTodo(todo.id);
+  };
 
-    const deleteHandler = () => {
-        setTodos(todos.filter(el => el.id !== todo.id))
-    }
-
-    const completeHandler = () => {
-        setTodos(todos.map(item => {
-            if(item.id === todo.id){
-                return {
-                    ...item, completed: !item.completed
-                };
-            }
-            return item;
-        }));
-    };
+  const completeHandler = () => {
+    completeTodo(todo.id);
+  };
 
   return (
-    <div className='todo'>
-        <li className={`todo-item ${todo.completed ? "completed" : ''}`}>{text}</li>
-        <MdCheck onClick={completeHandler} className='complete-btn'></MdCheck>
-        <MdDelete onClick={deleteHandler} className='trash-btn'></MdDelete>
-
+    <div className="todo">
+      <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>{text}</li>
+      <MdCheck onClick={completeHandler} className="complete-btn" />
+      <MdDelete onClick={deleteHandler} className="trash-btn" />
     </div>
-  )
-}
+  );
+};
 
-export default ToDo
+export default ToDo;
