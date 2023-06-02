@@ -7,8 +7,7 @@ import { ajax } from "rxjs/ajax";
 export const Calendar = () => {
   const [selected, setSelected] = useState(new Date());
   const [events, setEvents] = useState([]);
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventTime, setEventTime] = useState("");
+  const [event, setEvent] = useState({ title: "", time: "" });
   const [editEvent, setEditEvent] = useState(null);
 
   useEffect(() => {
@@ -21,22 +20,39 @@ export const Calendar = () => {
     ajax.getJSON(API_ENDPOINT).subscribe(setEvents);
   };
 
-  const createEvent = (eventData) => {
-    ajax.post(API_ENDPOINT, eventData).subscribe(fetchEvents);
+  const createEvent = () => {
+    if (event.title.trim() !== "" && event.time.trim() !== "") {
+      const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (timeRegex.test(event.time)) {
+        const newEvent = {
+          name: event.title,
+          date: selected.toISOString(),
+          time: event.time,
+        };
+        ajax.post(API_ENDPOINT, newEvent).subscribe(() => {
+          fetchEvents();
+          setEvent({ title: "", time: "" });
+        });
+      } else {
+        alert("Please enter a valid time in HH:mm format");
+      }
+    }
   };
 
   const updateEvent = (eventId, eventData) => {
     ajax({
       url: `${API_ENDPOINT}/${eventId}`,
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(eventData),
-    }).subscribe(fetchEvents);
+    }).subscribe(() => {
+      fetchEvents();
+      setEvent({ title: "", time: "" });
+      setEditEvent(null);
+    });
   };
-  
-  
 
   const deleteEvent = (eventId) => {
     ajax.delete(`${API_ENDPOINT}/${eventId}`).subscribe(fetchEvents);
@@ -44,54 +60,34 @@ export const Calendar = () => {
 
   const handleDayClick = (day) => {
     setSelected(day);
+    setEvent({ title: "", time: "" });
     setEditEvent(null);
   };
 
-  const handleEventTitleChange = (event) => {
-    setEventTitle(event.target.value);
-  };
-
-  const handleEventTimeChange = (event) => {
-    setEventTime(event.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
   };
 
   const handleAddEvent = () => {
-    if (eventTitle.trim() !== "" && eventTime.trim() !== "") {
-      const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-      if (timeRegex.test(eventTime)) {
-        const newEvent = {
-          name: eventTitle,
-          date: selected.toISOString(),
-          time: eventTime,
-        };
-        createEvent(newEvent);
-        setEventTitle("");
-        setEventTime("");
-      } else {
-        alert("Please enter a valid time in HH:mm format");
-      }
-    }
+    createEvent();
   };
 
   const handleEditEvent = (event) => {
-    setEventTitle(event.name);
-    setEventTime(event.time);
+    setEvent({ title: event.name, time: event.time });
     setEditEvent(event);
   };
 
   const handleSaveEdit = () => {
-    if (eventTitle.trim() !== "" && eventTime.trim() !== "" && editEvent) {
+    if (event.title.trim() !== "" && event.time.trim() !== "" && editEvent) {
       const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-      if (timeRegex.test(eventTime)) {
+      if (timeRegex.test(event.time)) {
         const updatedEvent = {
-          name: eventTitle,
+          name: event.title,
           date: selected.toISOString(),
-          time: eventTime,
+          time: event.time,
         };
         updateEvent(editEvent.id, updatedEvent);
-        setEventTitle("");
-        setEventTime("");
-        setEditEvent(null);
       } else {
         alert("Please enter a valid time in HH:mm format");
       }
@@ -99,11 +95,9 @@ export const Calendar = () => {
       alert("Please enter event title and time");
     }
   };
-  
 
   const handleCancelEdit = () => {
-    setEventTitle("");
-    setEventTime("");
+    setEvent({ title: "", time: "" });
     setEditEvent(null);
   };
 
@@ -125,9 +119,7 @@ export const Calendar = () => {
           <ul>
             {clickedDayEvents.map((event) => (
               <li key={event.id}>
-                {event.time && (
-                  <span>{event.time.slice(0, 5)}</span>
-                )}:{" "}
+                {event.time && <span>{event.time.slice(0, 5)}</span>}:{" "}
                 <span>{event.name}</span>
                 <button onClick={() => handleEditEvent(event)}>Edit</button>
                 <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
@@ -138,14 +130,16 @@ export const Calendar = () => {
             <div>
               <input
                 type="text"
-                value={eventTitle}
-                onChange={handleEventTitleChange}
+                name="title"
+                value={event.title}
+                onChange={handleInputChange}
                 placeholder="Event Title"
               />
               <input
                 type="text"
-                value={eventTime}
-                onChange={handleEventTimeChange}
+                name="time"
+                value={event.time}
+                onChange={handleInputChange}
                 placeholder="Event Time"
               />
               <button onClick={handleSaveEdit}>Save</button>
@@ -166,14 +160,16 @@ export const Calendar = () => {
       <div>
         <input
           type="text"
-          value={eventTitle}
-          onChange={handleEventTitleChange}
+          name="title"
+          value={event.title}
+          onChange={handleInputChange}
           placeholder="Event Title"
         />
         <input
           type="text"
-          value={eventTime}
-          onChange={handleEventTimeChange}
+          name="time"
+          value={event.time}
+          onChange={handleInputChange}
           placeholder="Event Time (HH:mm)"
         />
         <button onClick={handleAddEvent}>Add Event</button>
