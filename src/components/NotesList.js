@@ -2,7 +2,13 @@ import Note from "./Note";
 import AddNote from "./AddNote";
 
 // Component responsible for rendering the list of notes
-const NoteList = ({ notes, handleAddNote, handleDeleteNote, handleUpdateNote, }) => {
+const NotesList = ({ notes, handleAddNote, handleDeleteNote, handleUpdateNote, }) => {
+
+  console.log('Notes: ', notes);
+  
+  if (notes.length === 0) {
+    return <p>No Notes available</p>
+  }
 
   return (
     <div className="notes-list">
@@ -24,4 +30,4 @@ const NoteList = ({ notes, handleAddNote, handleDeleteNote, handleUpdateNote, })
   );
 };
 
-export default NoteList;
+export default NotesList;
