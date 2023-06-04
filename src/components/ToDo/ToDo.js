@@ -14,7 +14,7 @@ const ToDo = ({ text, todo, deleteTodo, completeTodo }) => {
     <div className="todo">
       <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>{text}</li>
       <MdCheck onClick={completeHandler} className="complete-btn" />
-      <MdDelete onClick={deleteHandler} className="trash-btn" />
+      <MdDelete onClick={deleteHandler} className="delete-icon" />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Form = ({ inputText, setInputText, submitTodoHandler, setStatus }) => {
         value={inputText}
         onChange={inputTextHandler}
         type="text"
-        className="todo-input"
+        className="input"
       />
       <button className="todo-button" type="submit">
         <MdSquare />

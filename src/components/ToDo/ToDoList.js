@@ -101,7 +101,7 @@ const ToDoList = () => {
         submitTodoHandler={submitTodoHandler}
         setStatus={setStatus}
       />
-      <ul className="todo-list">
+      <ul className="list">
         {filteredTodos.map((todo) => (
           <ToDo
             text={todo.text}

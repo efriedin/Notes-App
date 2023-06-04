@@ -10,6 +10,7 @@ export const Calendar = () => {
   const [event, setEvent] = useState({ title: "", time: "" });
   const [editEvent, setEditEvent] = useState(null);
 
+
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -116,19 +117,20 @@ export const Calendar = () => {
       return (
         <div className="events">
           <h4>Today's Events:</h4>
-          <ul>
+          <ul className="list">
             {clickedDayEvents.map((event) => (
               <li key={event.id}>
                 {event.time && <span>{event.time.slice(0, 5)}</span>}:{" "}
                 <span>{event.name}</span>
-                <button onClick={() => handleEditEvent(event)}>Edit</button>
-                <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
+                <button className="save-btn" onClick={() => handleEditEvent(event)}>Edit</button>
+                <button className="save-btn" onClick={() => handleDeleteEvent(event.id)}>Delete</button>
               </li>
             ))}
           </ul>
           {editEvent && (
             <div>
               <input
+                className="calendar-input"
                 type="text"
                 name="title"
                 value={event.title}
@@ -136,14 +138,15 @@ export const Calendar = () => {
                 placeholder="Event Title"
               />
               <input
+                className="calendar-input"
                 type="text"
                 name="time"
                 value={event.time}
                 onChange={handleInputChange}
                 placeholder="Event Time"
               />
-              <button onClick={handleSaveEdit}>Save</button>
-              <button onClick={handleCancelEdit}>Cancel</button>
+              <button className="save-btn" onClick={handleSaveEdit}>Save</button>
+              <button className="save-btn" onClick={handleCancelEdit}>Cancel</button>
             </div>
           )}
         </div>
@@ -154,11 +157,12 @@ export const Calendar = () => {
   };
 
   return (
-    <div>
+    <div className="calendar">
       <DayPicker selected={selected} onDayClick={handleDayClick} />
       {renderEvents()}
       <div>
         <input
+          className="calendar-input"
           type="text"
           name="title"
           value={event.title}
@@ -166,13 +170,14 @@ export const Calendar = () => {
           placeholder="Event Title"
         />
         <input
+          className="calendar-input"
           type="text"
           name="time"
           value={event.time}
           onChange={handleInputChange}
           placeholder="Event Time (HH:mm)"
         />
-        <button onClick={handleAddEvent}>Add Event</button>
+        <button className="save" onClick={handleAddEvent}>Add Event</button>
       </div>
     </div>
   );
