@@ -4,8 +4,6 @@ import AddNote from "./AddNote";
 // Component responsible for rendering the list of notes
 const NotesList = ({ notes, handleAddNote, handleDeleteNote, handleUpdateNote, }) => {
 
-  console.log('Notes: ', notes);
-  
   if (notes.length === 0) {
     return <p>No Notes available</p>
   }

@@ -79,6 +79,7 @@ textarea:focus {
 .edit-text-area {
   outline: none;
   background-color: #e8eef3;
+  color:#2F4937;
 }
 
 .note {
